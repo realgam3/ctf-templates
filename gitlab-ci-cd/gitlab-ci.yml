@@ -2,7 +2,7 @@ services:
   - docker:dind
 
 default:
-  image:  ${CI_REGISTRY}/bsidestlv/ctf22/kompose-ex:latest
+  image: realgam3/kompose-ex:latest
   tags:
     - docker
   interruptible: true
