@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  challenge:
+    build: backend
+    deploy:
+      replicas: 2
+    ports:
+      - "5000:5000"
+    environment:
+      SECRET_KEY: "1f1f89e3f6a9648705126d5c9f5260f351e77c914e893a6d5704f2ebf5df047b"
+    labels:
+      kompose.image-pull-secret: registry-gitlab
+      kompose.image-pull-policy: Always
+      kompose.service.expose: web.challenge.ctf.today
+      kompose.service.expose.ingress-class-name: nginx
+      kompose.service.expose.tls-secret: tls-nginx-ingress
+      nginx.ingress.kubernetes.io/affinity: cookie
+      nginx.ingress.kubernetes.io/affinity-mode: persistent
+      nginx.ingress.kubernetes.io/session-cookie-max-age: "360"
+      nginx.ingress.kubernetes.io/session-cookie-name: ctf-today-session
+      nginx.ingress.kubernetes.io/session-cookie-conditional-samesite-none: "true"
+      nginx.ingress.kubernetes.io/session-cookie-change-on-failure: "true"
+    restart: always

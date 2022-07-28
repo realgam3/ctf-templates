@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  backend:
+    build: backend
+    deploy:
+      replicas: 2
+    ports:
+      - "3000:3000"
+    environment:
+      SECRET_KEY: "3013a3dc8e45d006022291ab4a37ec38af44653d27223c8a55d2a5a81c1653d0"
+    depends_on:
+      - session
+    labels:
+      kompose.image-pull-secret: registry-gitlab
+      kompose.image-pull-policy: Always
+      kompose.service.expose: web.challenge.ctf.today
+      kompose.service.expose.ingress-class-name: nginx
+      kompose.service.expose.tls-secret: tls-nginx-ingress
+    restart: always
+
+  session:
+    image: redis:7.0-alpine
+    expose:
+      - "6379"
+    restart: always

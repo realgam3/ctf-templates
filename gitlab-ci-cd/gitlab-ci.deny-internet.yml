@@ -1,0 +1,27 @@
+services:
+  - docker:dind
+
+default:
+  image:  ${CI_REGISTRY}/bsidestlv/ctf22/kompose-ex:latest
+  tags:
+    - docker
+  interruptible: true
+
+variables:
+  DOCKER_HOST: tcp://docker:2376
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_TLS_VERIFY: 1
+  DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
+  GIT_SUBMODULE_STRATEGY: recursive
+
+deploy:
+  stage: deploy
+  script:
+    - docker login -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}" $CI_REGISTRY
+    - aws eks update-kubeconfig --name $AWS_EKS_CLUSTER
+    - docker compose -f docker-compose.yml build
+    - docker compose -f docker-compose.yml push
+    - kompose-ex convert -f docker-compose.yml -o k8s --restrict-ingress --restrict-egress --skip --deploy --route53
+  only:
+    variables:
+      - $CI_DEFAULT_BRANCH == $CI_COMMIT_REF_NAME

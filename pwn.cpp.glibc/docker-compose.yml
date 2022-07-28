@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  challenge:
+    build: src
+    deploy:
+      replicas: 2
+    ports:
+      - "8080:8080"
+    labels:
+      kompose-ex.service.expose: name.challenge.ctf.today
+      kompose.service.type: LoadBalancer
+      kompose.image-pull-secret: registry-gitlab
+      kompose.image-pull-policy: Always
+    restart: always
