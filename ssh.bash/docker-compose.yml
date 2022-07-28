@@ -6,12 +6,11 @@ services:
     deploy:
       replicas: 2
     ports:
-      - "8080:8080"
+      - "2222:22"
     environment:
-      IDLE_TIMEOUT: "30"
-      SESSION_TIMEOUT: "120"
+      DELETE_CRON: "*/2 * * * *"
     labels:
-#      kompose.service.type: LoadBalancer
+      #      kompose.service.type: LoadBalancer
       kompose-ex.service.type: ingress-nginx
       kompose.image-pull-policy: Always
       kompose-ex.service.expose: name.challenge.ctf.today

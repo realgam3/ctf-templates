@@ -29,6 +29,7 @@ RUN set -eux; \
     adduser --disabled-password --no-create-home --gecos ${USERNAME} ${USERNAME}
 
 USER ${USERNAME}
+ENV HOME=/tmp
 
 EXPOSE 8080
 CMD [ "socat", "-dd", "-t${SESSION_TIMEOUT}", "-T${IDLE_TIMEOUT}", "TCP4-LISTEN:8080,${ADDRESS_OPTIONS}", "EXEC:${COMMAND},${PROCESS_OPTIONS}" ]

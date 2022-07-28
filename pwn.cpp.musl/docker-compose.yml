@@ -7,9 +7,12 @@ services:
       replicas: 2
     ports:
       - "8080:8080"
+    environment:
+      IDLE_TIMEOUT: "30"
+      SESSION_TIMEOUT: "120"
     labels:
-      kompose-ex.service.expose: name.challenge.ctf.today
-      kompose.service.type: LoadBalancer
-      kompose.image-pull-secret: registry-gitlab
+#      kompose.service.type: LoadBalancer
+      kompose-ex.service.type: ingress-nginx
       kompose.image-pull-policy: Always
+      kompose-ex.service.expose: name.challenge.ctf.today
     restart: always

@@ -15,6 +15,7 @@ RUN set -eux; \
 COPY . .
 
 USER ${USERNAME}
+ENV HOME=/tmp
 
 EXPOSE 5000
 CMD [ "gunicorn", "-b", "0.0.0.0:5000", "-w", "1", "index:app" ]

@@ -8,11 +8,10 @@ services:
     ports:
       - "3000:3000"
     labels:
-      kompose.image-pull-secret: registry-gitlab
       kompose.image-pull-policy: Always
       kompose.service.expose: web.challenge.ctf.today
+      kompose-ex.service.expose.tls: "true"
       kompose.service.expose.ingress-class-name: nginx
-      kompose.service.expose.tls-secret: tls-nginx-ingress
     restart: always
 
   queue:
@@ -22,9 +21,13 @@ services:
     restart: always
 
   bot:
-    build: bot
+    image: realgam3/puppeteer-bot:latest
     deploy:
       replicas: 4
     depends_on:
       - queue
+    volumes:
+      - "./bot/config.js:/usr/src/app/config.js"
+    labels:
+      kompose.volume.type: configMap
     restart: always
