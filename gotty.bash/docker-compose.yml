@@ -6,11 +6,12 @@ services:
     deploy:
       replicas: 2
     ports:
-      - "2222:22"
+      - "3000:3000"
     environment:
       DELETE_CRON: "*/2 * * * *"
     labels:
       kompose.image-pull-policy: Always
-      # kompose.service.type: LoadBalancer
-      kompose-ex.service.expose: name.challenge.ctf.today
+      kompose.service.expose: name.challenge.ctf.today
+      kompose.service.expose.ingress-class-name: nginx
+      kompose-ex.service.expose.tls: "true"
     restart: always

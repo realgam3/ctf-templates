@@ -1,7 +1,7 @@
 FROM debian:bullseye-slim
 
-ARG USERNAME=hackeriot
-ARG PASSWORD=hackeriot
+ARG USERNAME=app
+ARG PASSWORD=app
 
 COPY generate.sh /generate.sh
 

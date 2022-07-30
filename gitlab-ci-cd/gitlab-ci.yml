@@ -2,7 +2,7 @@ services:
   - docker:dind
 
 default:
-  image: realgam3/kompose-ex:latest
+  image: realgam3/kompose-ex:cicd
   tags:
     - docker
   interruptible: true
@@ -16,12 +16,13 @@ variables:
 
 deploy:
   stage: deploy
+  variables:
+    NAMESPACE: $CI_PROJECT_NAME
   script:
     - docker login -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}" $CI_REGISTRY
-    - aws eks update-kubeconfig --name $AWS_EKS_CLUSTER
     - docker compose -f docker-compose.yml build
     - docker compose -f docker-compose.yml push
-    - kompose-ex convert -f docker-compose.yml -o k8s --restrict-ingress --deny-egress-cidr 169.254.0.0/16 --skip --deploy --route53
+    - kompose-ex deploy -f docker-compose.yml -o k8s/ --deny-ingress --deny-egress-cidr 169.254.0.0/16 -d --namespace $NAMESPACE --create-namespace --rollout-restart --patch-ingress --eks-kubeconfig $AWS_EKS_CLUSTER_NAME
   only:
     variables:
       - $CI_DEFAULT_BRANCH == $CI_COMMIT_REF_NAME

@@ -11,8 +11,8 @@ services:
       IDLE_TIMEOUT: "30"
       SESSION_TIMEOUT: "120"
     labels:
-#      kompose.service.type: LoadBalancer
-      kompose-ex.service.type: ingress-nginx
       kompose.image-pull-policy: Always
+      # kompose.service.type: LoadBalancer
+      kompose-ex.service.type: ingress-nginx
       kompose-ex.service.expose: name.challenge.ctf.today
     restart: always
