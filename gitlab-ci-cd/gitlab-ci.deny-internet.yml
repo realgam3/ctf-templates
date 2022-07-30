@@ -16,6 +16,8 @@ variables:
 
 deploy:
   stage: deploy
+  variables:
+    NAMESPACE: $CI_PROJECT_NAME
   script:
     - docker login -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}" $CI_REGISTRY
     - docker compose -f docker-compose.yml build
