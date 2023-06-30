@@ -17,7 +17,7 @@ COPY --from=build /usr/src/app/main.so .
 
 ENV IDLE_TIMEOUT=30
 ENV SESSION_TIMEOUT=120
-ENV COMMAND=/usr/src/app/main.so
+ENV COMMAND="timeout ${SESSION_TIMEOUT} /usr/src/app/main.so"
 ENV PROCESS_OPTIONS="pty,setuid=${USERNAME},echo=0,raw,iexten=0"
 ENV ADDRESS_OPTIONS="fork,reuseaddr"
 
@@ -32,4 +32,4 @@ USER ${USERNAME}
 ENV HOME=/tmp
 
 EXPOSE 8080
-CMD [ "sh", "-c", "socat -dd -t${SESSION_TIMEOUT} -T${IDLE_TIMEOUT} \"TCP4-LISTEN:8080,${ADDRESS_OPTIONS}\" \"EXEC:${COMMAND},${PROCESS_OPTIONS}\"" ]
+CMD [ "sh", "-c", "socat -dd -T${IDLE_TIMEOUT} \"TCP4-LISTEN:8080,${ADDRESS_OPTIONS}\" \"EXEC:${COMMAND},${PROCESS_OPTIONS}\"" ]

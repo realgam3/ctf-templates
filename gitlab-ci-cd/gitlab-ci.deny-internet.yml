@@ -22,7 +22,7 @@ deploy:
     - docker login -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}" $CI_REGISTRY
     - docker compose -f docker-compose.yml build
     - docker compose -f docker-compose.yml push
-    - kompose-ex deploy -f docker-compose.yml -o k8s/ --deny-ingress --deny-egress -d --namespace $NAMESPACE --create-namespace --rollout-restart --patch-ingress --eks-kubeconfig $AWS_EKS_CLUSTER_NAME
+    - kompose-ex deploy -f docker-compose.yml -o k8s/ --deny-ingress --deny-egress -d --namespace $NAMESPACE --create-namespace --rollout-restart --patch-ingress --eks-kubeconfig $AWS_EKS_CLUSTER
   only:
     variables:
       - $CI_DEFAULT_BRANCH == $CI_COMMIT_REF_NAME
