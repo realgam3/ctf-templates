@@ -1,4 +1,4 @@
-FROM debian:bullseye-slim
+FROM debian:bookworm-slim
 
 ARG USERNAME=app
 ARG PASSWORD=app
@@ -26,4 +26,4 @@ RUN set -eux; \
 EXPOSE 3000
 USER $USERNAME
 ENV TERM=xterm-256color
-CMD [ "gotty", "--port", "3000", "--permit-write", "--reconnect", "/generate.sh" ]
+CMD [ "gotty", "--address", "0.0.0.0", "--port", "3000", "--permit-write", "--reconnect", "/generate.sh" ]
