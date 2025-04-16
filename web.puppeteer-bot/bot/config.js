@@ -17,6 +17,11 @@ const config = {
         "page.goto",
         "extend.printTitle",
     ],
+    "xvfb": {
+        "args": [
+            "-screen", "0", '1280x720x24', "-ac"
+        ]
+    },
     "browser": {
         "options": {
             "headless": true,
